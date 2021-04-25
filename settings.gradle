@@ -1,0 +1,6 @@
+rootProject.name = 'demo-hexagonal-architecture'
+
+include 'domain'
+include 'infrastructure'
+include 'application'
+
