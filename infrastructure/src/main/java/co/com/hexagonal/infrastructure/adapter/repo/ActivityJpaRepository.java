@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface ActivityJpaRepository extends JpaRepository<ActivityJpaEntity, Long> {
 
@@ -18,16 +19,20 @@ public interface ActivityJpaRepository extends JpaRepository<ActivityJpaEntity, 
                                              @Param("since") LocalDateTime since);
 
     @Query("select sum(a.amount) from ActivityJpaEntity a " +
-                   "where a.targetAccountId = :accountId " +
-                   "and a.ownerAccountId = :accountId " +
-                   "and a.timestamp < ?2")
-    Long getDepositBalanceUntil(@Param("accountId") Long accountId,
-                                @Param("until") Instant until);
+                   "where a.targetAccountId = ?1 " +
+                   "and a.ownerAccountId = ?1 " +
+                   "and a.timestamp <= ?2")
+    Long getDepositBalanceUntil(@Param("accountId") Long accountId, Instant until);
 
     @Query("select sum(a.amount) from ActivityJpaEntity a " +
-                   "where a.sourceAccountId = :accountId " +
-                   "and a.ownerAccountId = :accountId " +
-                   "and a.timestamp < :#{until}")
-    Long getWithdrawalBalanceUntil(@Param("accountId") Long accountId,
-                                   @Param("until") Instant until);
+                   "where a.sourceAccountId = :#{accountId} " +
+                   "and a.ownerAccountId = :#{accountId} " +
+                   "and a.timestamp <= :#{until}")
+    Long getWithdrawalBalanceUntil(@Param("accountId") Long accountId, @Param("until") Instant until);
+
+    @Query("select sum(a.amount) from ActivityJpaEntity a " +
+                   "where a.sourceAccountId = :#{params['accountId']} " +
+                   "and a.ownerAccountId = :#{params['accountId']} " +
+                   "and a.timestamp <= :#{params['date']}")
+    Long getWithdrawalBalanceUntil(Map<String, Object> params);
 }

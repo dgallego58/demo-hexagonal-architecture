@@ -3,10 +3,7 @@ package co.com.hexagonal.infrastructure.adapter.data;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -14,6 +11,7 @@ import javax.persistence.Id;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "accounts")
 public class AccountJpaEntity {
 
 

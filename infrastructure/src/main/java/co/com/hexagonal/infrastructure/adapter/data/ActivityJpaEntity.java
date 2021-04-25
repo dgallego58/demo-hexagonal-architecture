@@ -3,10 +3,7 @@ package co.com.hexagonal.infrastructure.adapter.data;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.Instant;
 
 @Getter
@@ -15,6 +12,7 @@ import java.time.Instant;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "activities")
 public class ActivityJpaEntity {
 
     @Column(name = "ID", nullable = false)
