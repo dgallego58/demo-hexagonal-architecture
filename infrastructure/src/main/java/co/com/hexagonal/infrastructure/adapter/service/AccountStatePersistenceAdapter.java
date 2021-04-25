@@ -8,7 +8,6 @@ import co.com.hexagonal.infrastructure.adapter.data.ActivityJpaEntity;
 import co.com.hexagonal.infrastructure.adapter.repo.AccountJpaRepository;
 import co.com.hexagonal.infrastructure.adapter.repo.ActivityJpaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +26,7 @@ public class AccountStatePersistenceAdapter implements LoadAccountPort, UpdateAc
     private final AccountJpaRepository accountJpaRepository;
     private final ActivityJpaRepository activityJpaRepository;
     private final AccountMapper accountMapper;
+    private final AccountPersistenceJDBC accountPersistenceJDBC;
 
 
     private Long orZero(Long value) {
@@ -42,9 +42,9 @@ public class AccountStatePersistenceAdapter implements LoadAccountPort, UpdateAc
         params.put("accountId", idValue);
         params.put("date", untilInstant);
         AccountJpaEntity account = accountJpaRepository.findById(idValue).orElseThrow(EntityNotFoundException::new);
-        List<ActivityJpaEntity> activities = activityJpaRepository.findByOwnerSince(idValue, baselineDate);
-        Long withdrawalBalance = orZero(activityJpaRepository.getWithdrawalBalanceUntil(idValue, untilInstant));
-        Long depositBalance = orZero(activityJpaRepository.getWithdrawalBalanceUntil(params));
+        List<ActivityJpaEntity> activities = activityJpaRepository.findByOwnerSince(idValue, untilInstant);
+        Long withdrawalBalance = orZero(accountPersistenceJDBC.withDrawalBalanceUntil(idValue, untilInstant));
+        Long depositBalance = orZero(accountPersistenceJDBC.getDepositBalanceUntil(idValue, untilInstant));
 
         return accountMapper.mapToDomainEntity(account, activities, withdrawalBalance, depositBalance);
     }

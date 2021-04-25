@@ -1,6 +1,8 @@
 buildscript {
     ext {
         set('springBootVersion', "2.4.5")
+        set('snippetsDir', file("build/generated-snippets"))
+        set('testcontainersVersion', "1.15.3")
     }
 }
 
@@ -18,36 +20,16 @@ plugins {
 group = 'co.com.hexagonal'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+mainClassName = "co.com.hexagonal.application.Application"
 
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
-}
-
-allprojects {
-    repositories {
-        mavenCentral()
-    }
-}
-
-subprojects {
-    apply plugin: 'io.freefair.lombok'
-    apply plugin: 'java-library'
-    apply plugin: 'application'
-    apply plugin: 'idea'
-
-    dependencies {
-        testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.1")
-        testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
-    }
-
-    test {
-        useJUnitPlatform()
-    }
 
 }
 
-mainClassName = "co.com.hexagonal.application.Application"
+apply from: './main.gradle'
+
 
 

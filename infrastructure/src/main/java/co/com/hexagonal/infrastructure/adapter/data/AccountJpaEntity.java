@@ -11,13 +11,13 @@ import javax.persistence.*;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "accounts")
+@Table(name = "accounts", schema = "hexagon")
 public class AccountJpaEntity {
 
 
     @Column(name = "ID", nullable = false)
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Override

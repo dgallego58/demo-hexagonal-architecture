@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ public interface ActivityJpaRepository extends JpaRepository<ActivityJpaEntity, 
                    "where a.ownerAccountId = :ownerAccountId " +
                    "and a.timestamp >= :since")
     List<ActivityJpaEntity> findByOwnerSince(@Param("ownerAccountId") Long ownerAccountId,
-                                             @Param("since") LocalDateTime since);
+                                             @Param("since") Instant since);
 
     @Query("select sum(a.amount) from ActivityJpaEntity a " +
                    "where a.targetAccountId = ?1 " +
@@ -28,11 +27,12 @@ public interface ActivityJpaRepository extends JpaRepository<ActivityJpaEntity, 
                    "where a.sourceAccountId = :#{accountId} " +
                    "and a.ownerAccountId = :#{accountId} " +
                    "and a.timestamp <= :#{until}")
-    Long getWithdrawalBalanceUntil(@Param("accountId") Long accountId, @Param("until") Instant until);
+    Long withdrawalBalanceUntil(@Param("accountId") Long accountId, @Param("until") Instant until);
 
     @Query("select sum(a.amount) from ActivityJpaEntity a " +
                    "where a.sourceAccountId = :#{params['accountId']} " +
                    "and a.ownerAccountId = :#{params['accountId']} " +
                    "and a.timestamp <= :#{params['date']}")
-    Long getWithdrawalBalanceUntil(Map<String, Object> params);
+    Long withdrawalBalanceUntil(Map<String, Object> params);
+
 }

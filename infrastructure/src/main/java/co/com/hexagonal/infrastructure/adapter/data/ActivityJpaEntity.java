@@ -12,12 +12,12 @@ import java.time.Instant;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "activities")
+@Table(name = "activities", schema = "hexagon")
 public class ActivityJpaEntity {
 
     @Column(name = "ID", nullable = false)
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(columnDefinition = "TIMESTAMP WITH TIME ZONE")
