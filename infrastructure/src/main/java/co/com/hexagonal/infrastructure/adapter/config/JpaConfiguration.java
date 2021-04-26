@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"co.com.hexagonal.infrastructure.adapter.repo"})
+@EnableJpaRepositories(basePackages = "co.com.hexagonal.infrastructure.adapter.repo")
 @EntityScan(basePackages = {"co.com.hexagonal.infrastructure.adapter.data"})
-@ComponentScan(basePackages = {"co.com.hexagonal.infrastructure.adapter"})
+@ComponentScan(basePackages = {"co.com.hexagonal.infrastructure.adapter.service"})
 public class JpaConfiguration {
 
 }

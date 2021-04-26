@@ -24,15 +24,15 @@ public interface ActivityJpaRepository extends JpaRepository<ActivityJpaEntity, 
     Long getDepositBalanceUntil(@Param("accountId") Long accountId, Instant until);
 
     @Query("select sum(a.amount) from ActivityJpaEntity a " +
-                   "where a.sourceAccountId = :#{accountId} " +
-                   "and a.ownerAccountId = :#{accountId} " +
-                   "and a.timestamp <= :#{until}")
+                   "where a.sourceAccountId = :#{#accountId} " +
+                   "and a.ownerAccountId = :#{#accountId} " +
+                   "and a.timestamp <= :#{#until}")
     Long withdrawalBalanceUntil(@Param("accountId") Long accountId, @Param("until") Instant until);
 
     @Query("select sum(a.amount) from ActivityJpaEntity a " +
-                   "where a.sourceAccountId = :#{params['accountId']} " +
-                   "and a.ownerAccountId = :#{params['accountId']} " +
-                   "and a.timestamp <= :#{params['date']}")
+                   "where a.sourceAccountId = :#{#params['accountId']} " +
+                   "and a.ownerAccountId = :#{#params['accountId']} " +
+                   "and a.timestamp <= :#{#params['date']}")
     Long withdrawalBalanceUntil(Map<String, Object> params);
 
 }
